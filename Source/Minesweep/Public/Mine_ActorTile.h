@@ -18,7 +18,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	// Update the tile to show if mine / or weight of tile 
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Reveal"))
-	void UpdateTile(bool m, int c);
+	void ShowTile(bool m, int c);
 	
 protected:
 	// Called when the game starts or when spawned

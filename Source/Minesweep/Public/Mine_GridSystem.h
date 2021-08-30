@@ -17,12 +17,21 @@ struct MINESWEEP_API FTileStruct
 		bool isRevealed;
 		int mineWeight;
 
+	void SetRevealed() { isRevealed = true; }
+	void SetTile(AMine_ActorTile* t) { tile = t; }
+	void SetMine(int m) { if (m >= 10 ? isMine = true : mineWeight = m)return; }
+	bool isBlank()
+	{
+		if (isMine) return false;
+		return mineWeight == 0;
+	}
 	FTileStruct()
 	{ 
 		isMine = false;
 		isRevealed = false;
 		mineWeight = 0;
 	}
+	
 };
 
 UCLASS()
@@ -36,32 +45,31 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Tile)
 	TSubclassOf<class AMine_ActorTile> tileBlueprint;
+	UPROPERTY(EditAnywhere, Category = Tile)
+	int gridWidth;
+	UPROPERTY(EditAnywhere, Category = Tile)
+	int gridHeight;
+	UPROPERTY(EditAnywhere, Category = Tile)
+	int mineCount;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
 	// Create the initial grid of tiles
-	void CreateGrid(int x, int y);
+	void CreateGrid();
 	// Set mine locations and numbers - x,y = the player tile selection
-	void CreateMines(int x, int y);
+	void CreateMines(int clickX, int clickY);
 	// Player selects tile - x,y = grid locations
 	void RevealTile(int x, int y);
+	void RevealAll(); // reveal all tiles
 	// Check border tile, call RevealTile if it is
-	void CheckAdjacent(int x, int y);
+	void RevealAdjacent(int x, int y);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-	int width;
-	int height;
-	int mineCount;
+	
 	TArray<TArray<FTileStruct>> tileArray;
-
-	//TEST
-
-
-
-
 
 };
