@@ -20,11 +20,13 @@ struct MINESWEEP_API FTileStruct
 	void SetRevealed() { isRevealed = true; }
 	void SetTile(AMine_ActorTile* t) { tile = t; }
 	void SetMine(int m) { if (m >= 10 ? isMine = true : mineWeight = m)return; }
-	bool isBlank()
+	bool IsBlank()
 	{
 		if (isMine) return false;
 		return mineWeight == 0;
 	}
+	bool IsMine() { return isMine; }
+
 	FTileStruct()
 	{ 
 		isMine = false;
@@ -69,7 +71,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	
+	void CheckWin();
 	TArray<TArray<FTileStruct>> tileArray;
+	bool hasGeneratedMines;
+	int gridScore;
 
 };

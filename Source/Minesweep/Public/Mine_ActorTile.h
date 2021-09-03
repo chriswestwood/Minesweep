@@ -19,17 +19,27 @@ public:
 	// Update the tile to show if mine / or weight of tile 
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Reveal"))
 	void ShowTile(bool m, int c);
+	// Update the tile to show if mine / or weight of tile 
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Flag"))
+	void FlagTile(bool f);
+	// tile is clicked by player
+	void ClickTile();
+	// tile is flagged by player
+	void ChangeFlag();
+
+	void SetPos(int x, int y);
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:	
-	// tile is clicked by player
-	void ClickTile();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "settings")
+		bool isFlagged;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "settings")
+		bool isClicked;
 
-	bool isClicked;
-	int x;
-	int y;
+private:	
+	int xLoc;
+	int yLoc;
 
 };

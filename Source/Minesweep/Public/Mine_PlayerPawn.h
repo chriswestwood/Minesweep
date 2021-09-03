@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/DefaultPawn.h"
 #include "Mine_PlayerPawn.generated.h"
 
 UCLASS()
-class MINESWEEP_API AMine_PlayerPawn : public APawn
+class MINESWEEP_API AMine_PlayerPawn : public ADefaultPawn
 {
 	GENERATED_BODY()
 

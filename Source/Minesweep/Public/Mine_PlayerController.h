@@ -13,5 +13,17 @@ UCLASS()
 class MINESWEEP_API AMine_PlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+
+public:
+	AMine_PlayerController();
+
+protected:
+	virtual void SetupInputComponent() override;
+
+	void ClickTile();
+	void SetFlag();
+	void MoveUp(float v);
+	void MoveRight(float v);
 	
 };
