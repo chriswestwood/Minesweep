@@ -1,37 +1,20 @@
-## Welcome to GitHub Pages
+## About
+Minesweeper is a puzzle game, where the objective is to reveal all of the non mined tiles. Each tile is given a numerical value based on the amount of mines immediately surrounding it, this gives the player an indication of where the mines could be located allowing the for the deduction of safe tiles. Players can also flag a tile that they suspect of being a mine, allowing for easy remembering and stops any accidental clicking.
 
-You can use the [editor on GitHub](https://github.com/chriswestwood/Minesweep/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Features
+- Customisable grid size and difficulty settings
+- Score/timer/win streak counters
+- Tile flagging
+- Controls: Left Click - Reveal, Right Click - Flag, Tab/Esc - Show/Close menu
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### TO-DO
+- Sound
+- Save/Load feature
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Reference
+[Code](https://github.com/chriswestwood/Minesweep)
 
-```markdown
-Syntax highlighted code block
+[Download]()
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/chriswestwood/Minesweep/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+[Wiki](https://en.wikipedia.org/wiki/Minesweeper_(video_game))
