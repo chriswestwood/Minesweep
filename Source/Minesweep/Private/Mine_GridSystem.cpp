@@ -4,21 +4,26 @@
 #include "Mine_GridSystem.h"
 #include "MinesweepGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Mine_GameInstance.h"
+#include "Mine_PlayerController.h"
 
 // Sets default values
 AMine_GridSystem::AMine_GridSystem()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
+	// use the custom HUD class
+	static ConstructorHelpers::FClassFinder<AMine_ActorTile> TileClass(TEXT("/Game/Blueprints/BP_Tile"));
+	if (TileClass.Class != NULL)
+	{
+		tileBlueprint = TileClass.Class;
+	}
 }
 
 // Called when the game starts or when spawned
 void AMine_GridSystem::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// TODO: get grdwidth and gridheight from settings
 	CreateGrid();
 	hasGeneratedMines = false;
 }
@@ -32,6 +37,23 @@ void AMine_GridSystem::Tick(float DeltaTime)
 
 void AMine_GridSystem::CreateGrid()
 {
+	gridScore = 0;
+	hasGeneratedMines = false;
+	// Init the grid values
+	gridWidth = 10;
+	gridHeight = 10;
+	mineCount = 10;
+	UMine_GameInstance* gameInstance = Cast<UMine_GameInstance>(GetGameInstance());
+	if (gameInstance)
+	{
+		gridWidth = gameInstance->GetGridSize().X;
+		gridHeight = gameInstance->GetGridSize().Y;
+		mineCount = gridWidth * gridHeight;
+		if (gameInstance->GetDifficulty() == Difficulty::Easy) mineCount = mineCount * 0.1f;
+		if (gameInstance->GetDifficulty() == Difficulty::Norm) mineCount = mineCount * 0.15f;
+		if (gameInstance->GetDifficulty() == Difficulty::Hard) mineCount = mineCount * 0.2f;
+	}
+	
 	if (tileBlueprint == nullptr) return;
 	for (int width = 0; width < gridWidth; width++)
 	{
@@ -54,10 +76,10 @@ void AMine_GridSystem::CreateMines(int clickX, int clickY)
 	hasGeneratedMines = true;
 	// create x * y array of ints
 	TArray<TArray<int>> bombArray;
-	for (int i = 0; i < gridHeight; i++)
+	for (int i = 0; i < gridWidth; i++)
 	{
 		TArray<int> bombValues;
-		for (int j = 0; j < gridWidth; j++)
+		for (int j = 0; j < gridHeight; j++)
 		{
 			bombValues.Add(0);
 		}
@@ -89,7 +111,7 @@ void AMine_GridSystem::CreateMines(int clickX, int clickY)
 	{
 		for (int x = 0; x < gridWidth; x++)
 		{
-			tileArray[y][x].SetMine(bombArray[y][x]);
+			tileArray[x][y].SetMine(bombArray[x][y]);
 		}
 	}
 }
@@ -102,18 +124,20 @@ void AMine_GridSystem::RevealTile(int x, int y)
 	if (!tileArray[x][y].isRevealed)
 	{
 		tileArray[x][y].SetRevealed();
-		tileArray[x][y].tile->ShowTile(tileArray[x][y].isMine,tileArray[x][y].mineWeight);
+		tileArray[x][y].tile->ShowTile(tileArray[x][y].isMine, tileArray[x][y].mineWeight);
 		if (tileArray[x][y].IsBlank())  RevealAdjacent(x, y); 
 		if (tileArray[x][y].IsMine()) 
 		{ 
 			RevealAll(); 
 			AMinesweepGameModeBase* gameMode = Cast<AMinesweepGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 			gameMode->EndGame(false, gridScore);
+			return;
 		}
 		gridScore++;
 		//Check for win conditions
 		CheckWin();
 	}
+	Cast<AMine_PlayerController>(GetWorld()->GetFirstPlayerController())->SetScore(gridScore);
 }
 
 void AMine_GridSystem::RevealAll()
@@ -122,7 +146,8 @@ void AMine_GridSystem::RevealAll()
 	{
 		for (int x = 0; x < gridWidth; x++)
 		{
-			RevealTile(x, y);
+			tileArray[x][y].SetRevealed();
+			tileArray[x][y].tile->ShowTile(tileArray[x][y].isMine, tileArray[x][y].mineWeight);
 		}
 	}
 }
@@ -151,7 +176,7 @@ void AMine_GridSystem::CheckWin()
 	{
 		for (int x = 0; x < gridWidth; x++)
 		{
-			if (!tileArray[y][x].isRevealed && !tileArray[y][x].IsMine()) return;
+			if (!tileArray[x][y].isRevealed && !tileArray[x][y].IsMine()) return;
 		}
 	}
 	// All non-mine tiles have been revealed, set level win

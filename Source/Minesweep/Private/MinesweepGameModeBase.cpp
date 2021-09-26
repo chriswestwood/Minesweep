@@ -25,8 +25,6 @@ void AMinesweepGameModeBase::SetGrid(AMine_GridSystem* g)
 void AMinesweepGameModeBase::EndGame(bool isWin, int score)
 {
 	// disable player input
-	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
-	PC->DisableInput(NULL);
-
-	// show game over screen w/ stats
+	AMine_PlayerController* PC = Cast<AMine_PlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	PC->SetGameEnd(score, isWin);
 }

@@ -44,15 +44,7 @@ class MINESWEEP_API AMine_GridSystem : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMine_GridSystem();
-
-	UPROPERTY(EditAnywhere, Category = Tile)
-	TSubclassOf<class AMine_ActorTile> tileBlueprint;
-	UPROPERTY(EditAnywhere, Category = Tile)
-	int gridWidth;
-	UPROPERTY(EditAnywhere, Category = Tile)
-	int gridHeight;
-	UPROPERTY(EditAnywhere, Category = Tile)
-	int mineCount;
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
@@ -69,11 +61,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-private:
 	void CheckWin();
+	
+	TSubclassOf<class AMine_ActorTile> tileBlueprint;
 	TArray<TArray<FTileStruct>> tileArray;
 	bool hasGeneratedMines;
 	int gridScore;
+	int gridWidth;
+	int gridHeight;
+	int mineCount;
 
 };
