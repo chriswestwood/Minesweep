@@ -20,12 +20,14 @@ class MINESWEEP_API AMinesweepGameModeBase : public AGameModeBase
 
 public:
 	AMinesweepGameModeBase();
-
-	AMine_GridSystem* GetGrid();
-	void SetGrid(AMine_GridSystem* g);
+	// End game
 	void EndGame(bool isWin, int score);
+	// Gets
+	AMine_GridSystem* GetGrid();
+	// Sets
+	void SetGrid(AMine_GridSystem* g);
 
 private:
-
+	// grid system
 	AMine_GridSystem* gridSystem;
 };

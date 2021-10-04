@@ -14,8 +14,6 @@ class MINESWEEP_API AMine_ActorTile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMine_ActorTile();
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 	// Update the tile to show if mine / or weight of tile 
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Reveal"))
 	void ShowTile(bool m, int c);
@@ -26,19 +24,21 @@ public:
 	void ClickTile();
 	// tile is flagged by player
 	void ChangeFlag();
-
+	// set the tile grid location
 	void SetPos(int x, int y);
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	// flag for flagging tile
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "settings")
 		bool isFlagged;
+	// flag for if clicked
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "settings")
 		bool isClicked;
 
 private:	
+	// location on grid
 	int xLoc;
 	int yLoc;
 

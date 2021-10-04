@@ -9,11 +9,13 @@ void UMine_LevelWidget::NativeConstruct()
 	Super::NativeConstruct();
 }
 
+// Set timer 
 void UMine_LevelWidget::SetTimer(float time)
 {
 	if(TimerText) TimerText->SetText(FText::AsNumber(time));
 }
 
+// Set score
 void UMine_LevelWidget::SetScore(int score)
 {
 	if (ScoreText) ScoreText->SetText(FText::AsNumber(score));

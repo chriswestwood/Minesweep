@@ -4,6 +4,7 @@
 #include "MinesweepGameModeBase.h"
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 
+// setup defaults
 AMinesweepGameModeBase::AMinesweepGameModeBase()
 {
 	DefaultPawnClass = AMine_PlayerPawn::StaticClass();
@@ -12,16 +13,19 @@ AMinesweepGameModeBase::AMinesweepGameModeBase()
 	SetGrid(foundGrid);
 }
 
+// retrieve the grid system
 AMine_GridSystem* AMinesweepGameModeBase::GetGrid()
 {
 	return gridSystem;
 }
 
+// Set the grid system
 void AMinesweepGameModeBase::SetGrid(AMine_GridSystem* g)
 {
 	if (g != nullptr) gridSystem = g;
 }
 
+// End the game
 void AMinesweepGameModeBase::EndGame(bool isWin, int score)
 {
 	// disable player input

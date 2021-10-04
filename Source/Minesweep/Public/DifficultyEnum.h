@@ -6,6 +6,7 @@
 #include "Engine/UserDefinedEnum.h"
 #include "DifficultyEnum.generated.h"
 
+// Difficulty Enum, sets the amount of mines in game
 UENUM()
 enum Difficulty
 {

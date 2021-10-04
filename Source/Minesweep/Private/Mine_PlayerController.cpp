@@ -7,12 +7,14 @@
 #include "Mine_GameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
+// set defaults
 AMine_PlayerController::AMine_PlayerController()
 {
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableTouchEvents = true;
 	DefaultMouseCursor = EMouseCursor::Hand;
+	// set widgets
 	static ConstructorHelpers::FClassFinder<UMine_LevelWidget> levelWidgetBPClass(TEXT("/Game/Blueprints/Mine_LevelWidgetBP"));
 	if (levelWidgetBPClass.Class != NULL)
 	{
@@ -23,9 +25,9 @@ AMine_PlayerController::AMine_PlayerController()
 	{
 		menuWidget = CreateWidget<UMine_MenuWidget>(GetWorld(), menuWidgetBPClass.Class);
 	}
-
 }
 
+// Set the Inputs
 void AMine_PlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -38,6 +40,7 @@ void AMine_PlayerController::SetupInputComponent()
 
 }
 
+// Player Left Clicked a tile
 void AMine_PlayerController::ClickTile()
 {
 	if (bLevelOver || menuWidget->IsInViewport()) return;
@@ -52,6 +55,7 @@ void AMine_PlayerController::ClickTile()
 	}
 }
 
+// Player right click tile
 void AMine_PlayerController::SetFlag()
 {
 	//Trace to see if anything is behind the mouse cursor
@@ -66,22 +70,24 @@ void AMine_PlayerController::SetFlag()
 	}
 }
 
+// Begin Play override
 void AMine_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	// add level widget to screen
 	if (levelWidget)
 	{
 		levelWidget->AddToViewport();
 		levelWidget->SetScore(score);
 		levelWidget->SetTimer(timer);
 	}
-	/*bLevelOver = true;
-	if (bLevelOver) ViewMenu();*/
 }
 
+// Tick overrride
 void AMine_PlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	// update timer if the game is not paused
 	if (!menuWidget->IsInViewport())
 	{
 		timer += DeltaTime;
@@ -92,6 +98,7 @@ void AMine_PlayerController::Tick(float DeltaTime)
 	}
 }
 
+// open/close the menu screen
 void AMine_PlayerController::ViewMenu()
 {
 	if (menuWidget)
@@ -118,6 +125,7 @@ void AMine_PlayerController::ViewMenu()
 	}
 }
 
+// Restart the game
 void AMine_PlayerController::RestartGame()
 {
 	levelWidget->RemoveFromViewport();
@@ -125,11 +133,13 @@ void AMine_PlayerController::RestartGame()
 	UGameplayStatics::OpenLevel(GetWorld(),"GameMap");
 }
 
+// get level widget
 UMine_LevelWidget* AMine_PlayerController::getlevelWidget()
 {
 	return levelWidget;
 }
 
+// move camera up
 void AMine_PlayerController::MoveUp(float v)
 {	
 	if (v != 0.0f)
@@ -138,6 +148,7 @@ void AMine_PlayerController::MoveUp(float v)
 	}
 }
 
+// move camera right
 void AMine_PlayerController::MoveRight(float v)
 {
 	if (v != 0.0f)
@@ -146,12 +157,14 @@ void AMine_PlayerController::MoveRight(float v)
 	}
 }
 
+// Set score
 void AMine_PlayerController::SetScore(int s)
 {
 	score = s;
 	if (levelWidget) levelWidget->SetScore(score);
 }
 
+// set the game over
 void AMine_PlayerController::SetGameEnd(int s, bool bWin)
 {
 	bLevelOver = true;

@@ -7,17 +7,17 @@
 
 
 
-// Sets default values
+// Set default values
 AMine_PlayerPawn::AMine_PlayerPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// remove tick
 	PrimaryActorTick.bCanEverTick = false;
-	// Our root component will be a sphere that reacts to physics
+	// add root comp
 	USphereComponent* sphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
 	RootComponent = sphereComp;
 	sphereComp->InitSphereRadius(10.0f);
 	sphereComp->SetCollisionProfileName(TEXT("Pawn"));
-
+	// add camera comp
 	UCameraComponent* camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
 	camera->SetupAttachment(sphereComp, USpringArmComponent::SocketName);
 
@@ -31,17 +31,9 @@ void AMine_PlayerPawn::BeginPlay()
 	
 }
 
-// Called every frame
-void AMine_PlayerPawn::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 // Called to bind functionality to input
 void AMine_PlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
