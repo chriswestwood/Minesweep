@@ -22,4 +22,4 @@ Minesweeper is a puzzle game, where the objective is to reveal all of the non mi
 - [Wiki](https://en.wikipedia.org/wiki/Minesweeper_(video_game))
 
 
-<<[Return](https://chriswestwood.github.io/)
+<< [Return](https://chriswestwood.github.io/)
